@@ -100,7 +100,7 @@ class AaplEnvironment(BaseEnvironment):
         # achieved model accuracy. Return this fitness
         self.accuracy_metric.reset_states()
         self.accuracy_metric.update_state(self.val_y, np.argmax(model(self.val_x), axis=-1))
-        return round(self.accuracy_metric.result().numpy(), 8)
+        return round(self.accuracy_metric.result().numpy(), 6)
 
     def _eval_genome_fitness_non_weight_training(self, genome) -> float:
         """"""
@@ -119,7 +119,7 @@ class AaplEnvironment(BaseEnvironment):
         model = genome.get_model()
         self.accuracy_metric.reset_states()
         self.accuracy_metric.update_state(self.val_y, np.argmax(model(self.val_x), axis=-1))
-        evaluated_fitness = round(self.accuracy_metric.result().numpy(), 8)
+        evaluated_fitness = round(self.accuracy_metric.result().numpy(), 6)
         print("Achieved Fitness:\t{}\n".format(evaluated_fitness))
 
     def duplicate(self) -> AaplEnvironment:
