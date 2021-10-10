@@ -6,6 +6,16 @@ import tensorflow as tf
 from .base_environment import BaseEnvironment
 from tfne.helper_functions import read_option_from_config
 
+try:
+  tpu = tf.distribute.cluster_resolver.TPUClusterResolver()  # TPU detection
+  print('Running on TPU ', tpu.cluster_spec().as_dict()['worker'])
+except ValueError:
+  raise BaseException('ERROR: Not connected to a TPU runtime; please see the previous cell in this notebook for instructions!')
+
+tf.config.experimental_connect_to_cluster(tpu)
+tf.tpu.experimental.initialize_tpu_system(tpu)
+tpu_strategy = tf.distribute.experimental.TPUStrategy(tpu)
+
 class asymLoss(tf.keras.losses.Loss):
     def call(self,y_true,y_pred,a=0.5):
         y_true = tf.cast(y_true, y_pred.dtype)
@@ -85,11 +95,13 @@ class AaplEnvironment(BaseEnvironment):
         @return: genome calculated fitness that is the percentage of test images classified correctly
         """
         # Get model and optimizer required for compilation
-        model = genome.get_model()
-        optimizer = genome.get_optimizer()
+        
+        with tpu_strategy.scope(): # creating the model in the TPUStrategy scope means we will train the model on the TPU
+            model = genome.get_model()
+            optimizer = genome.get_optimizer()
+            model.compile(optimizer=optimizer, loss=tf.keras.losses.MeanSquaredError())
 
         # Compile and train model
-        model.compile(optimizer=optimizer, loss=tf.keras.losses.MeanSquaredError())
         model.fit(x=self.train_x,
                   y=self.train_y,
                   epochs=self.epochs,
