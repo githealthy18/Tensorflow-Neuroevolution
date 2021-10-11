@@ -390,11 +390,9 @@ class CoDeepNEAT(BaseNeuroevolutionAlgorithm,
 
         # Create serialized population
         serialized_state['population'] = self.pop.serialize()
-        print(serialized_state)
 
         # Create serialized encoding state
         serialized_state['encoding'] = self.enc.serialize()
-        print(serialized_state)
 
         # Save the just serialized state as a json file
         with open(save_file_path, 'w') as save_file:
