@@ -205,11 +205,11 @@ class CoDeepNEATEncoding(BaseEncoding):
         serialized_gene_to_gene_id = dict()
         for key, value in self.gene_to_gene_id.items():
             serializable_key = str(key)
-            serialized_gene_to_gene_id[serializable_key] = str(value)
+            serialized_gene_to_gene_id[serializable_key] = value
         serialized_conn_split_history = dict()
         for key, value in self.conn_split_history.items():
             serializable_key = str(key)
-            serialized_conn_split_history[serializable_key] = str(value)
+            serialized_conn_split_history[serializable_key] = value
 
         return {
             'encoding_type': 'CoDeepNEAT',
