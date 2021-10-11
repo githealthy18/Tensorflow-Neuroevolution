@@ -134,7 +134,7 @@ class CoDeepNEATGenome(BaseGenome,
             'bp_assigned_modules': serialized_bp_assigned_mods,
             'output_layers': self.output_layers,
             'input_shape': str(self.input_shape),
-            'dtype': self.dtype,
+            'dtype': str(self.dtype),
             'origin_generation': self.origin_generation
         }
 
