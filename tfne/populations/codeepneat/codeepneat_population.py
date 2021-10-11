@@ -123,6 +123,8 @@ class CoDeepNEATPopulation(BasePopulation):
         for bp_id, blueprint in self.blueprints.items():
             serialized_blueprints[bp_id] = blueprint.serialize()
 
+        print(self.mod_species_fitness_history)
+
         # Use serialized module and blueprint population and extend it by population internal evolution information
         serialized_population = {
             'population_type': 'CoDeepNEAT',
