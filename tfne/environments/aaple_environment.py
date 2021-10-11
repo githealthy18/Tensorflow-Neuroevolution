@@ -6,13 +6,13 @@ import tensorflow as tf
 from .base_environment import BaseEnvironment
 from tfne.helper_functions import read_option_from_config
 
-class asymLoss(tf.keras.losses.Loss):
-    def call(self,y_true,y_pred,a=0.5):
-        y_true = tf.cast(y_true, y_pred.dtype)
-        residual = y_true-y_pred
-        log_part = (-1/10) + (1/10)*tf.math.exp(-10*residual)
-        result = tf.reduce_mean(tf.where(tf.math.equal(tf.math.sign(y_true), tf.math.sign(y_pred)),tf.math.square(residual),tf.math.add(residual,log_part)))
-        return residual**2 * (tf.math.sign(residual) + a)**2
+# class asymLoss(tf.keras.losses.Loss):
+#     def call(self,y_true,y_pred,a=0.5):
+#         y_true = tf.cast(y_true, y_pred.dtype)
+#         residual = y_true-y_pred
+#         log_part = (-1/10) + (1/10)*tf.math.exp(-10*residual)
+#         result = tf.reduce_mean(tf.where(tf.math.equal(tf.math.sign(y_true), tf.math.sign(y_pred)),tf.math.square(residual),tf.math.add(residual,log_part)))
+#         return residual**2 * (tf.math.sign(residual) + a)**2
 
 class AaplEnvironment(BaseEnvironment):
     """
